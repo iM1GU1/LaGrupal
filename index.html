@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LA GRUPAL</title>
 </head>
 <body>
     <h1>Bienvenid@ a La Grupal!</h1>
+    <p id="user-welcome" style="display: none;"></p>
     <p>Empezemos la aventura:</p>
 
-    <form onsubmit="return validateForm()">
+    <form onsubmit="return registerUser()">
         <label for="email">Escribe tu mail:</label>
         <input type="email" id="email" name="email" required><br>
 
@@ -30,28 +29,16 @@
         <input type="submit" value="Submit">
     </form>
 
+    <!-- Botón de cierre de sesión -->
+    <button id="user-logout" style="display: none;">Cerrar Sesión</button>
+
     <div id="error-message" style="color: red; display: none;">Correo ya registrado</div>
 
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js"></script>
     <script>
-        function validateForm() {
-            // Aquí deberías enviar una solicitud al servidor para verificar si el correo ya está registrado.
-            // Si el correo ya existe, muestra el mensaje de error y devuelve false para evitar que se envíe el formulario.
-            // Si el correo no está registrado, puedes permitir que se envíe el formulario.
-            var email = document.getElementById("email").value;
-            // Aquí debes implementar la lógica de verificación del correo en el servidor.
-            // Por ahora, se muestra un mensaje de error como ejemplo.
-            if (email === "correoexistente@example.com") {
-                document.getElementById("error-message").style.display = "block";
-                return false; // Evita que se envíe el formulario.
-            }
-            return true; // Permite que se envíe el formulario.
-        }
-    </script>
-        <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js"></script>
-        <script>
-          // Firebase configuration
-          var firebaseConfig = {
+        // Firebase configuration
+        var firebaseConfig = {
             apiKey: "AIzaSyDiQEI2SrV6CVsYd4N7gRvkX1YGAd6UClA",
             authDomain: "la-grupal.firebaseapp.com",
             databaseURL: "https://la-grupal-default-rtdb.europe-west1.firebasedatabase.app",
@@ -61,9 +48,48 @@
             appId: "1:536171535990:web:8d3c1a427ecbf4af244957",
             measurementId: "G-H2HKE1205Y"
         };
-      
+
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
-      </script>
+
+        // Firebase Authentication functions go here (as mentioned in previous responses).
+        function registerUser() {
+            // Firebase Authentication code for registration
+            // ...
+        }
+
+        // Detectar cambios en el estado de autenticación del usuario
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                // El usuario ha iniciado sesión
+                // Aquí puedes mostrar el nombre del usuario y la opción de cerrar sesión
+                var userDisplayName = user.displayName;
+                var userWelcome = document.getElementById('user-welcome');
+                var userLogoutButton = document.getElementById('user-logout');
+
+                userWelcome.textContent = '¡Hola, ' + userDisplayName + '!';
+                userWelcome.style.display = 'block';
+                userLogoutButton.style.display = 'block';
+            } else {
+                // El usuario no ha iniciado sesión
+                // Aquí puedes ocultar el nombre del usuario y la opción de cerrar sesión
+                var userWelcome = document.getElementById('user-welcome');
+                var userLogoutButton = document.getElementById('user-logout');
+
+                userWelcome.style.display = 'none';
+                userLogoutButton.style.display = 'none';
+            }
+        });
+
+        var userLogoutButton = document.getElementById('user-logout');
+        userLogoutButton.addEventListener('click', function() {
+            firebase.auth().signOut().then(function() {
+                // Cierre de sesión exitoso
+                // Puedes redirigir al usuario a una página de inicio de sesión o realizar otras acciones aquí
+            }).catch(function(error) {
+                // Manejar errores de cierre de sesión si es necesario
+            });
+        });
+    </script>
 </body>
 </html>
