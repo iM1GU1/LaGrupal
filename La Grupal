@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LA GRUPAL</title>
+</head>
+<body>
+    <h1>Bienvenid@ a La Grupal!</h1>
+    <p>Empezemos la aventura!</p>
+
+    <form onsubmit="return validateForm()">
+        <label for="email">Escribe tu mail*</label>
+        <input type="email" id="email" name="email" required><br>
+
+        <label for="password">Create a password*</label>
+        <input type="password" id="password" name="password" required><br>
+
+        <label for="username">Enter a username*</label>
+        <input type="text" id="username" name="username" required><br>
+
+        <p>Would you like to receive product updates and announcements via email?</p>
+        <input type="radio" id="yes" name="updates" value="yes">
+        <label for="yes">Yes</label><br>
+        <input type="radio" id="no" name="updates" value="no">
+        <label for="no">No</label><br>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <div id="error-message" style="color: red; display: none;">Correo ya registrado</div>
+
+    <script>
+        function validateForm() {
+            // Aquí deberías enviar una solicitud al servidor para verificar si el correo ya está registrado.
+            // Si el correo ya existe, muestra el mensaje de error y devuelve false para evitar que se envíe el formulario.
+            // Si el correo no está registrado, puedes permitir que se envíe el formulario.
+            var email = document.getElementById("email").value;
+            // Aquí debes implementar la lógica de verificación del correo en el servidor.
+            // Por ahora, se muestra un mensaje de error como ejemplo.
+            if (email === "correoexistente@example.com") {
+                document.getElementById("error-message").style.display = "block";
+                return false; // Evita que se envíe el formulario.
+            }
+            return true; // Permite que se envíe el formulario.
+        }
+    </script>
+</body>
+</html>
