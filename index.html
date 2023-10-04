@@ -7,7 +7,6 @@
 </head>
 <body>
     <h1>Bienvenid@ a La Grupal!</h1>
-    <p id="user-welcome" style="display: none;"></p>
     <p>Empezemos la aventura:</p>
 
     <form onsubmit="return registerUser()">
@@ -33,7 +32,7 @@
     <button id="user-logout" style="display: none;">Cerrar Sesión</button>
 
     <!-- Nombre de usuario -->
-    <div id="user-display-name" style="display: none;"></div>
+    <p id="user-display-name" style="display: none;"></p>
 
     <div id="error-message" style="color: red; display: none;">Correo ya registrado</div>
 
@@ -67,25 +66,20 @@
                 // El usuario ha iniciado sesión
                 // Aquí puedes mostrar el nombre del usuario y la opción de cerrar sesión
                 var userDisplayName = user.displayName;
-                var userWelcome = document.getElementById('user-welcome');
                 var userLogoutButton = document.getElementById('user-logout');
-                var userDisplayNameDiv = document.getElementById('user-display-name'); // Nuevo elemento
+                var userDisplayNameParagraph = document.getElementById('user-display-name');
 
-                userWelcome.textContent = '¡Hola, ' + userDisplayName + '!';
-                userWelcome.style.display = 'block';
                 userLogoutButton.style.display = 'block';
-                userDisplayNameDiv.textContent = 'Bienvenido, ' + userDisplayName; // Mostrar el nombre del usuario
-                userDisplayNameDiv.style.display = 'block'; // Mostrar el nombre del usuario
+                userDisplayNameParagraph.textContent = '¡Hola, ' + userDisplayName + '!';
+                userDisplayNameParagraph.style.display = 'block';
             } else {
                 // El usuario no ha iniciado sesión
-                // Aquí puedes ocultar el nombre del usuario y la opción de cerrar sesión
-                var userWelcome = document.getElementById('user-welcome');
+                // Aquí puedes ocultar la opción de cerrar sesión
                 var userLogoutButton = document.getElementById('user-logout');
-                var userDisplayNameDiv = document.getElementById('user-display-name'); // Nuevo elemento
+                var userDisplayNameParagraph = document.getElementById('user-display-name');
 
-                userWelcome.style.display = 'none';
                 userLogoutButton.style.display = 'none';
-                userDisplayNameDiv.style.display = 'none'; // Ocultar el nombre del usuario
+                userDisplayNameParagraph.style.display = 'none';
             }
         });
 
