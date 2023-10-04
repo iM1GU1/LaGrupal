@@ -32,6 +32,9 @@
     <!-- Botón de cierre de sesión -->
     <button id="user-logout" style="display: none;">Cerrar Sesión</button>
 
+    <!-- Nombre de usuario -->
+    <div id="user-display-name" style="display: none;"></div>
+
     <div id="error-message" style="color: red; display: none;">Correo ya registrado</div>
 
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
@@ -39,14 +42,14 @@
     <script>
         // Firebase configuration
         var firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            databaseURL: "YOUR_DATABASE_URL",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID",
-            measurementId: "YOUR_MEASUREMENT_ID"
+            apiKey: "AIzaSyDiQEI2SrV6CVsYd4N7gRvkX1YGAd6UClA",
+            authDomain: "la-grupal.firebaseapp.com",
+            databaseURL: "https://la-grupal-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "la-grupal",
+            storageBucket: "la-grupal.appspot.com",
+            messagingSenderId: "536171535990",
+            appId: "1:536171535990:web:8d3c1a427ecbf4af244957",
+            measurementId: "G-H2HKE1205Y"
         };
 
         // Initialize Firebase
@@ -66,28 +69,23 @@
                 var userDisplayName = user.displayName;
                 var userWelcome = document.getElementById('user-welcome');
                 var userLogoutButton = document.getElementById('user-logout');
+                var userDisplayNameDiv = document.getElementById('user-display-name'); // Nuevo elemento
 
                 userWelcome.textContent = '¡Hola, ' + userDisplayName + '!';
                 userWelcome.style.display = 'block';
                 userLogoutButton.style.display = 'block';
-
-                // Actualizar el nombre del usuario
-                var user = firebase.auth().currentUser;
-                user.updateProfile({
-                    displayName: "Nombre de Usuario"
-                }).then(function() {
-                    // El nombre del usuario se ha actualizado correctamente
-                }).catch(function(error) {
-                    // Manejar errores si es necesario
-                });
+                userDisplayNameDiv.textContent = 'Bienvenido, ' + userDisplayName; // Mostrar el nombre del usuario
+                userDisplayNameDiv.style.display = 'block'; // Mostrar el nombre del usuario
             } else {
                 // El usuario no ha iniciado sesión
                 // Aquí puedes ocultar el nombre del usuario y la opción de cerrar sesión
                 var userWelcome = document.getElementById('user-welcome');
                 var userLogoutButton = document.getElementById('user-logout');
+                var userDisplayNameDiv = document.getElementById('user-display-name'); // Nuevo elemento
 
                 userWelcome.style.display = 'none';
                 userLogoutButton.style.display = 'none';
+                userDisplayNameDiv.style.display = 'none'; // Ocultar el nombre del usuario
             }
         });
 
