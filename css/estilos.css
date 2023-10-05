@@ -1,0 +1,125 @@
+/* Estilos globales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #8B4513; /* Marrón oscuro */
+    color: #fff; /* Texto en color blanco */
+    text-align: center;
+}
+
+/* Estilos del encabezado */
+h1 {
+    font-size: 2rem; /* Tamaño de fuente más grande */
+    margin-top: 20px; /* Reducido el margen superior */
+}
+
+/* Estilos del contenedor principal */
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco translúcido con más opacidad */
+    padding: 20px;
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Sutil sombra */
+    text-align: center; /* Texto centrado */
+}
+
+/* Estilos del formulario */
+form {
+    margin-top: 20px;
+}
+
+/* Estilos de las etiquetas */
+label {
+    font-weight: bold;
+    display: block; /* Etiquetas en bloques para mejor separación */
+}
+
+/* Estilos de los campos de entrada */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="radio"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px; /* Mayor espacio inferior para separación */
+    border: 1px solid #ccc;
+    border-radius: 5px; /* Bordes más redondeados */
+    box-sizing: border-box;
+}
+
+/* Estilos de la pregunta de género */
+.gender-label {
+    display: flex;
+    align-items: center;
+    margin-top: 15px; /* Mayor margen superior para separación */
+}
+
+.gender-label p {
+    margin-right: 10px;
+}
+
+/* Estilos del mensaje de error */
+#error-message {
+    color: red;
+    display: none;
+    margin-top: 10px;
+}
+
+/* Estilos del mensaje de bienvenida del usuario */
+#user-welcome {
+    font-weight: bold;
+    margin-top: 10px;
+    display: none;
+}
+
+/* Estilos del botón de cierre de sesión */
+#user-logout {
+    background-color: #dc3545; /* Rojo */
+    color: #fff;
+    border: none;
+    padding: 12px 25px; /* Botón un poco más grande */
+    border-radius: 5px; /* Bordes más redondeados */
+    cursor: pointer;
+    display: none;
+    margin-top: 20px;
+}
+
+/* Estilos del botón de registro */
+.register-button {
+    background-color: #007BFF; /* Azul */
+    color: #fff;
+    border: none;
+    padding: 12px 25px; /* Botón un poco más grande */
+    border-radius: 5px; /* Bordes más redondeados */
+    cursor: pointer;
+    margin-top: 15px; /* Mayor margen superior para separación */
+}
+
+/* Estilos del menú de navegación */
+nav {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    display: inline;
+    margin: 0 10px;
+}
+
+a {
+    text-decoration: none;
+    color: #fff;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #00f;
+}

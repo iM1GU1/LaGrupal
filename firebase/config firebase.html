@@ -1,0 +1,66 @@
+<!-- Configuración de Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js"></script>
+<script>
+    // Tu configuración de Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyDiQEI2SrV6CVsYd4N7gRvkX1YGAd6UClA",
+        authDomain: "la-grupal.firebaseapp.com",
+        projectId: "la-grupal",
+        storageBucket: "la-grupal.appspot.com",
+        messagingSenderId: "536171535990",
+        appId: "1:536171535990:web:8d3c1a427ecbf4af244957"
+    };
+
+    // Inicializa Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Función para registrar un usuario
+    function registerUser() {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                // Registro exitoso
+                const user = userCredential.user;
+                console.log("Usuario registrado:", user);
+                // Puedes agregar aquí el código para redirigir al usuario o mostrar un mensaje de éxito.
+            })
+            .catch((error) => {
+                // Hubo un error en el registro
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.error("Error al registrar:", errorMessage);
+                // Puedes mostrar un mensaje de error al usuario aquí.
+            });
+
+        return false; // Para evitar que el formulario se envíe
+    }
+
+    // Función para iniciar sesión
+    function loginUser() {
+        const email = document.getElementById("login-email").value;
+        const password = document.getElementById("login-password").value;
+
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                // Inicio de sesión exitoso
+                const user = userCredential.user;
+                console.log("Usuario inició sesión:", user);
+                // Puedes agregar aquí el código para redirigir al usuario o mostrar un mensaje de éxito.
+            })
+            .catch((error) => {
+                // Hubo un error en el inicio de sesión
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.error("Error al iniciar sesión:", errorMessage);
+                // Puedes mostrar un mensaje de error al usuario aquí.
+            });
+
+        return false; // Para evitar que el formulario se envíe
+    }
+
+    // ... Más código JavaScript ...
+
+</script>
