@@ -10,6 +10,7 @@
     <p id="user-welcome" style="display: none;"></p>
     <p>Empezemos la aventura:</p>
 
+    <!-- Formulario de Registro -->
     <form onsubmit="return registerUser()">
         <label for="email">Escribe tu mail:</label>
         <input type="email" id="email" name="email" required><br>
@@ -26,7 +27,18 @@
         <input type="radio" id="female" name="gender" value="female">
         <label for="female">Chica</label><br>
 
-        <input type="submit" value="Submit">
+        <input type="submit" value="Registrarse">
+    </form>
+
+    <!-- Formulario de Inicio de Sesión -->
+    <form onsubmit="return loginUser()">
+        <label for="login-email">Correo electrónico:</label>
+        <input type="email" id="login-email" name="login-email" required><br>
+
+        <label for="login-password">Contraseña:</label>
+        <input type="password" id="login-password" name="login-password" required><br>
+
+        <input type="submit" value="Iniciar Sesión">
     </form>
 
     <!-- Botón de cierre de sesión -->
@@ -39,14 +51,14 @@
     <script>
         // Your web app's Firebase configuration
         const firebaseConfig = {
-            apiKey: "AIzaSyDiQEI2SrV6CVsYd4N7gRvkX1YGAd6UClA",
-            authDomain: "la-grupal.firebaseapp.com",
-            databaseURL: "https://la-grupal-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "la-grupal",
-            storageBucket: "la-grupal.appspot.com",
-            messagingSenderId: "536171535990",
-            appId: "1:536171535990:web:8d3c1a427ecbf4af244957",
-            measurementId: "G-H2HKE1205Y"
+        apiKey: "AIzaSyDiQEI2SrV6CVsYd4N7gRvkX1YGAd6UClA", 
+        authDomain: "la-grupal.firebaseapp.com",
+        databaseURL: "https://la-grupal-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "la-grupal",
+        storageBucket: "la-grupal.appspot.com",
+        messagingSenderId: "536171535990",
+        appId: "1:536171535990:web:8d3c1a427ecbf4af244957",
+        measurementId: "G-H2HKE1205Y"
         };
 
         // Initialize Firebase
@@ -54,12 +66,73 @@
 
         // Firebase Authentication functions
         function registerUser() {
+            // Obtener los valores de los campos de registro
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const username = document.getElementById('username').value;
+            const gender = document.querySelector('input[name="gender"]:checked').value;
+
             // Firebase Authentication code for registration
-            // ...
+            firebase.auth().createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // Registro exitoso, puedes guardar información adicional en Firebase Firestore
+                    // Por ahora, solo actualizaremos el nombre del usuario
+                    const user = userCredential.user;
+                    user.updateProfile({
+                        displayName: username
+                    }).then(() => {
+                        // El nombre del usuario se ha actualizado correctamente
+                    }).catch((error) => {
+                        // Manejar errores si es necesario
+                    });
+
+                    // Limpia el formulario después del registro
+                    document.getElementById('email').value = '';
+                    document.getElementById('password').value = '';
+                    document.getElementById('username').value = '';
+                    document.querySelector('input[name="gender"]:checked').checked = false;
+
+                    // Mostrar mensaje de bienvenida
+                    const userWelcome = document.getElementById('user-welcome');
+                    userWelcome.textContent = '¡Hola, ' + username + '!';
+                    userWelcome.style.display = 'block';
+                })
+                .catch((error) => {
+                    // Manejar errores de registro
+                    const errorMessage = error.message;
+                    const errorMessageElement = document.getElementById('error-message');
+                    errorMessageElement.textContent = errorMessage;
+                    errorMessageElement.style.display = 'block';
+                });
+
+            // Evita que el formulario se envíe
+            return false;
+        }
+
+        // Función para iniciar sesión
+        function loginUser() {
+            const loginEmail = document.getElementById('login-email').value;
+            const loginPassword = document.getElementById('login-password').value;
+
+            firebase.auth().signInWithEmailAndPassword(loginEmail, loginPassword)
+                .then((userCredential) => {
+                    // Inicio de sesión exitoso
+                    // Puedes redirigir al usuario o realizar otras acciones aquí
+                })
+                .catch((error) => {
+                    // Manejar errores de inicio de sesión
+                    const errorMessage = error.message;
+                    const errorMessageElement = document.getElementById('error-message');
+                    errorMessageElement.textContent = errorMessage;
+                    errorMessageElement.style.display = 'block';
+                });
+
+            // Evita que el formulario se envíe
+            return false;
         }
 
         // Detectar cambios en el estado de autenticación del usuario
-        firebase.auth().onAuthStateChanged(function(user) {
+        firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
                 // El usuario ha iniciado sesión
                 // Mostrar el nombre del usuario y el botón de cierre de sesión
@@ -82,11 +155,11 @@
         });
 
         var userLogoutButton = document.getElementById('user-logout');
-        userLogoutButton.addEventListener('click', function() {
-            firebase.auth().signOut().then(function() {
+        userLogoutButton.addEventListener('click', function () {
+            firebase.auth().signOut().then(function () {
                 // Cierre de sesión exitoso
                 // Puedes redirigir al usuario a una página de inicio de sesión o realizar otras acciones aquí
-            }).catch(function(error) {
+            }).catch(function (error) {
                 // Manejar errores de cierre de sesión si es necesario
             });
         });
