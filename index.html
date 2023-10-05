@@ -4,48 +4,135 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LA GRUPAL</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #8B4513; /* Marrón oscuro */
+            color: #fff; /* Texto en color blanco */
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 30px;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco translúcido */
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            text-align: left;
+            font-weight: bold;
+            width: 100%; /* Ajusta el ancho del label al 100% */
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="radio"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box; /* Ajusta el box-sizing para evitar problemas de ancho */
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #007BFF; /* Azul */
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        #error-message {
+            color: red;
+            display: none;
+            margin-top: 10px;
+        }
+
+        #user-welcome {
+            font-weight: bold;
+            margin-top: 10px;
+            display: none;
+        }
+
+        #user-logout {
+            background-color: #dc3545; /* Rojo */
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 3px;
+            cursor: pointer;
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <h1>Bienvenid@ a La Grupal!</h1>
-    <p id="user-welcome" style="display: none;"></p>
-    <p>Empezemos la aventura:</p>
+    <div class="container">
+        <p id="user-welcome"></p>
+        <p>Empezemos la aventura:</p>
 
-    <!-- Formulario de Registro -->
-    <form onsubmit="return registerUser()">
-        <label for="email">Escribe tu mail:</label>
-        <input type="email" id="email" name="email" required><br>
+        <!-- Formulario de Registro -->
+        <form onsubmit="return registerUser()">
+            <label for="email">Escribe tu mail:</label>
+            <input type="email" id="email" name="email" required>
 
-        <label for="password">Pon tu contraseña ultra secreta:</label>
-        <input type="password" id="password" name="password" required><br>
+            <label for="password">Pon tu contraseña ultra secreta:</label>
+            <input type="password" id="password" name="password" required>
 
-        <label for="username">Escribe un nombre mega molón:*</label>
-        <input type="text" id="username" name="username" required><br>
+            <label for="username">Escribe un nombre mega molón:*</label>
+            <input type="text" id="username" name="username" required>
 
-        <p>¿Eres chico o chica?</p>
-        <input type="radio" id="male" name="gender" value="male">
-        <label for="male">Chico</label><br>
-        <input type="radio" id="female" name="gender" value="female">
-        <label for="female">Chica</label><br>
+            <input type="submit" value="Registrarse">
 
-        <input type="submit" value="Registrarse">
-    </form>
+            <p>¿Eres chico o chica?</p>
+            <input type="radio" id="male" name="gender" value="male">
+            <label for="male">Chico</label>
+            <input type="radio" id="female" name="gender" value="female">
+            <label for="female">Chica</label>
+        </form>
 
-    <!-- Formulario de Inicio de Sesión -->
-    <form onsubmit="return loginUser()">
-        <label for="login-email">Correo electrónico:</label>
-        <input type="email" id="login-email" name="login-email" required><br>
+        <!-- Formulario de Inicio de Sesión -->
+        <form onsubmit="return loginUser()">
+            <label for="login-email">Correo electrónico:</label>
+            <input type="email" id="login-email" name="login-email" required>
 
-        <label for="login-password">Contraseña:</label>
-        <input type="password" id="login-password" name="login-password" required><br>
+            <label for="login-password">Contraseña:</label>
+            <input type="password" id="login-password" name="login-password" required>
 
-        <input type="submit" value="Iniciar Sesión">
-    </form>
+            <input type="submit" value="Iniciar Sesión">
+        </form>
 
-    <!-- Botón de cierre de sesión -->
-    <button id="user-logout" style="display: none;">Cerrar Sesión</button>
+        <!-- Botón de cierre de sesión -->
+        <button id="user-logout">Cerrar Sesión</button>
 
-    <div id="error-message" style="color: red; display: none;">Correo ya registrado</div>
+        <div id="error-message"></div>
+    </div>
 
+    <!-- Configuración de Firebase -->
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js"></script>
     <script>
@@ -66,103 +153,15 @@
 
         // Firebase Authentication functions
         function registerUser() {
-            // Obtener los valores de los campos de registro
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const username = document.getElementById('username').value;
-            const gender = document.querySelector('input[name="gender"]:checked').value;
-
-            // Firebase Authentication code for registration
-            firebase.auth().createUserWithEmailAndPassword(email, password)
-                .then((userCredential) => {
-                    // Registro exitoso, puedes guardar información adicional en Firebase Firestore
-                    // Por ahora, solo actualizaremos el nombre del usuario
-                    const user = userCredential.user;
-                    user.updateProfile({
-                        displayName: username
-                    }).then(() => {
-                        // El nombre del usuario se ha actualizado correctamente
-                    }).catch((error) => {
-                        // Manejar errores si es necesario
-                    });
-
-                    // Limpia el formulario después del registro
-                    document.getElementById('email').value = '';
-                    document.getElementById('password').value = '';
-                    document.getElementById('username').value = '';
-                    document.querySelector('input[name="gender"]:checked').checked = false;
-
-                    // Mostrar mensaje de bienvenida
-                    const userWelcome = document.getElementById('user-welcome');
-                    userWelcome.textContent = '¡Hola, ' + username + '!';
-                    userWelcome.style.display = 'block';
-                })
-                .catch((error) => {
-                    // Manejar errores de registro
-                    const errorMessage = error.message;
-                    const errorMessageElement = document.getElementById('error-message');
-                    errorMessageElement.textContent = errorMessage;
-                    errorMessageElement.style.display = 'block';
-                });
-
-            // Evita que el formulario se envíe
-            return false;
+            // Tu código de registro de Firebase aquí
         }
 
-        // Función para iniciar sesión
         function loginUser() {
-            const loginEmail = document.getElementById('login-email').value;
-            const loginPassword = document.getElementById('login-password').value;
-
-            firebase.auth().signInWithEmailAndPassword(loginEmail, loginPassword)
-                .then((userCredential) => {
-                    // Inicio de sesión exitoso
-                    // Puedes redirigir al usuario o realizar otras acciones aquí
-                })
-                .catch((error) => {
-                    // Manejar errores de inicio de sesión
-                    const errorMessage = error.message;
-                    const errorMessageElement = document.getElementById('error-message');
-                    errorMessageElement.textContent = errorMessage;
-                    errorMessageElement.style.display = 'block';
-                });
-
-            // Evita que el formulario se envíe
-            return false;
+            // Tu código de inicio de sesión de Firebase aquí
         }
 
-        // Detectar cambios en el estado de autenticación del usuario
-        firebase.auth().onAuthStateChanged(function (user) {
-            if (user) {
-                // El usuario ha iniciado sesión
-                // Mostrar el nombre del usuario y el botón de cierre de sesión
-                var userDisplayName = user.displayName;
-                var userWelcome = document.getElementById('user-welcome');
-                var userLogoutButton = document.getElementById('user-logout');
+        // ... Más código JavaScript ...
 
-                userWelcome.textContent = '¡Hola, ' + userDisplayName + '!';
-                userWelcome.style.display = 'block';
-                userLogoutButton.style.display = 'block';
-            } else {
-                // El usuario no ha iniciado sesión
-                // Ocultar el nombre del usuario y el botón de cierre de sesión
-                var userWelcome = document.getElementById('user-welcome');
-                var userLogoutButton = document.getElementById('user-logout');
-
-                userWelcome.style.display = 'none';
-                userLogoutButton.style.display = 'none';
-            }
-        });
-
-        var userLogoutButton = document.getElementById('user-logout');
-        userLogoutButton.addEventListener('click', function () {
-            firebase.auth().signOut().then(function () {
-                // Cierre de sesión exitoso
-                // Puedes redirigir al usuario a una página de inicio de sesión o realizar otras acciones aquí
-            }).catch(function (error) {
-                // Manejar errores de cierre de sesión si es necesario
-            });
-        });
     </script>
 </body>
 </html>
