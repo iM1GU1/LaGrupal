@@ -7,6 +7,7 @@
 </head>
 <body>
     <h1>Bienvenid@ a La Grupal!</h1>
+    <p id="user-welcome" style="display: none;"></p>
     <p>Empezemos la aventura:</p>
 
     <form onsubmit="return registerUser()">
@@ -31,16 +32,13 @@
     <!-- Botón de cierre de sesión -->
     <button id="user-logout" style="display: none;">Cerrar Sesión</button>
 
-    <!-- Nombre de usuario -->
-    <p id="user-display-name" style="display: none;"></p>
-
     <div id="error-message" style="color: red; display: none;">Correo ya registrado</div>
 
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js"></script>
     <script>
-        // Firebase configuration
-        var firebaseConfig = {
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
             apiKey: "AIzaSyDiQEI2SrV6CVsYd4N7gRvkX1YGAd6UClA",
             authDomain: "la-grupal.firebaseapp.com",
             databaseURL: "https://la-grupal-default-rtdb.europe-west1.firebasedatabase.app",
@@ -54,7 +52,7 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
 
-        // Firebase Authentication functions go here (as mentioned in previous responses).
+        // Firebase Authentication functions
         function registerUser() {
             // Firebase Authentication code for registration
             // ...
@@ -64,22 +62,22 @@
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
                 // El usuario ha iniciado sesión
-                // Aquí puedes mostrar el nombre del usuario y la opción de cerrar sesión
+                // Mostrar el nombre del usuario y el botón de cierre de sesión
                 var userDisplayName = user.displayName;
+                var userWelcome = document.getElementById('user-welcome');
                 var userLogoutButton = document.getElementById('user-logout');
-                var userDisplayNameParagraph = document.getElementById('user-display-name');
 
+                userWelcome.textContent = '¡Hola, ' + userDisplayName + '!';
+                userWelcome.style.display = 'block';
                 userLogoutButton.style.display = 'block';
-                userDisplayNameParagraph.textContent = '¡Hola, ' + userDisplayName + '!';
-                userDisplayNameParagraph.style.display = 'block';
             } else {
                 // El usuario no ha iniciado sesión
-                // Aquí puedes ocultar la opción de cerrar sesión
+                // Ocultar el nombre del usuario y el botón de cierre de sesión
+                var userWelcome = document.getElementById('user-welcome');
                 var userLogoutButton = document.getElementById('user-logout');
-                var userDisplayNameParagraph = document.getElementById('user-display-name');
 
+                userWelcome.style.display = 'none';
                 userLogoutButton.style.display = 'none';
-                userDisplayNameParagraph.style.display = 'none';
             }
         });
 
